@@ -38,3 +38,16 @@ frappe.ui.form.on("Bank", {
         });
     }
 });
+frappe.ui.form.on("Bank", {
+    refresh(frm) {
+
+        if (frm.is_new()) return;
+
+        frappe.call({
+            method: "bank_details.api.bank_details.create_bank_address",
+            args: {
+                bank_docname: frm.doc.name
+            }
+        });
+    }
+});

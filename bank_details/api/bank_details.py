@@ -40,3 +40,51 @@ def get_bank_details_from_ifsc(custom_ifsc_code):
     except Exception:
         frappe.log_error(frappe.get_traceback(), "IFSC Fetch Error")
         frappe.throw("Unable to fetch bank details. Please check IFSC code.")
+
+
+
+@frappe.whitelist()
+def create_bank_address(bank_docname):
+    """
+    Create Address for Bank after save
+    """
+
+    if not bank_docname:
+        frappe.throw("Bank document name is required")
+
+    bank = frappe.get_doc("Bank", bank_docname)
+
+    # Prevent duplicate Address
+    existing = frappe.db.exists(
+        "Address",
+        {
+            "address_title": bank.bank_name,
+            "address_type": "Billing"
+        }
+    )
+
+    if existing:
+        return {"status": "skipped", "message": "Address already exists"}
+
+    address = frappe.new_doc("Address")
+    address.address_title = bank.bank_name
+    address.address_type = "Billing"
+
+    address.address_line1 = bank.custom_address
+    address.city = bank.custom_city
+    address.state = bank.custom_state
+    address.county = bank.custom_district
+    address.country = "India"
+
+    address.append(
+        "links",
+        {
+            "link_doctype": "Bank",
+            "link_name": bank.name
+        }
+    )
+
+    address.flags.ignore_permissions = True
+    address.insert()
+
+    return {"status": "success", "message": "Address created"}
