@@ -1,40 +1,45 @@
-### Bank Details
+# Bank Details
 
-Bank Details
+A custom ERPNext / Frappe app to **fetch and auto-populate Bank details using IFSC code**.
 
-### Installation
+- Fetch bank details on a single click
+- Auto-fill Bank master fields before saving
+- Maintain clean and accurate bank records
+- Use a modern, user-friendly UI button on the Bank form
 
-You can install this app using the [bench](https://github.com/frappe/bench) CLI:
+---
+
+## ✨ Features
+
+- 🔍 Fetch bank details using **IFSC code**
+- 🏦 Auto-populates:
+  - Bank Name (Bank + IFSC)
+  - Bank Code
+  - Branch
+  - Address
+  - City, District, State
+  - MICR
+  - SWIFT
+  - NEFT / RTGS / IMPS / UPI availability
+- 🖱️ **Get Bank Details** button available on **new Bank form**
+- 🚫 No auto-save — user reviews data before saving
+- ⚙️ Naming Series support (auto-configured on install)
+- 🔒 No API keys required
+
+---
+
+## 🧩 Tech Stack
+
+- Frappe Framework v16
+- ERPNext v16
+
+---
+
+## 🚀 Installation
+
+Install the app using the [bench](https://github.com/frappe/bench) CLI:
 
 ```bash
 cd $PATH_TO_YOUR_BENCH
-bench get-app $URL_OF_THIS_REPO --branch version-16-beta
+bench get-app https://github.com/ganureddy/bank_details --branch main
 bench install-app bank_details
-```
-
-### Contributing
-
-This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
-
-```bash
-cd apps/bank_details
-pre-commit install
-```
-
-Pre-commit is configured to use the following tools for checking and formatting your code:
-
-- ruff
-- eslint
-- prettier
-- pyupgrade
-### CI
-
-This app can use GitHub Actions for CI. The following workflows are configured:
-
-- CI: Installs this app and runs unit tests on every push to `develop` branch.
-- Linters: Runs [Frappe Semgrep Rules](https://github.com/frappe/semgrep-rules) and [pip-audit](https://pypi.org/project/pip-audit/) on every pull request.
-
-
-### License
-
-mit
